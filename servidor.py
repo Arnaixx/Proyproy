@@ -30,7 +30,12 @@ def modeloFile():
     datosEntrada = np.array([
             float(info[0]),
             float(info[1]),
-            float(info[2])
+            float(info[2]),
+            float(info[3]),
+            float(info[4]),
+            float(info[5]),
+            float(info[6]),
+            float(info[7])
         ])
     #Utilizar el modelo
     resultado=dt.predict(datosEntrada.reshape(1,-1))
@@ -44,9 +49,14 @@ def modeloForm():
     contenido = request.form
     
     datosEntrada = np.array([
-            contenido['pH'],
-            contenido['sulphates'],
-            contenido['alcohol']
+            contenido['Pregnancies'],
+            contenido['Glucose'],
+            contenido['BloodPressure'],
+            contenido['SkinThickness'],
+            contenido['Insulin'],
+            contenido['BMI'],
+            contenido['DiabetesPedigreeFunction'],
+            contenido['Age']
         ])
     #Utilizar el modelo
     resultado=dt.predict(datosEntrada.reshape(1,-1))
@@ -61,9 +71,14 @@ def modelo():
     contenido = request.json
     print(contenido)
     datosEntrada = np.array([
-            contenido['pH'],
-            contenido['sulphates'],
-            contenido['alcohol']
+            contenido['Pregnancies'],
+            contenido['Glucose'],
+            contenido['BloodPressure'],
+            contenido['SkinThickness'],
+            contenido['Insulin'],
+            contenido['BMI'],
+            contenido['DiabetesPedigreeFunction'],
+            contenido['Age']
         ])
     #Utilizar el modelo
     resultado=dt.predict(datosEntrada.reshape(1,-1))
