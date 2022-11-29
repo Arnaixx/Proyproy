@@ -20,14 +20,7 @@ const sequelize = new Sequelize('Diabetes','admin','admin1234',{
 
 //Cargar los modelos
 const modelDefiners =[
-    require('../models/bloodpressure'),
-    require('../models/bmi'),
-    require('../models/glucose'),
-    require('../models/insulin'),
-    require('../models/pregnancies'),
-    require('../models/skinthickness'),
-    require('../models/diabetespedigreefunction'),
-    require('../models/age')
+    require('../models/diabetes')
 ];
 
 //Adherir los modelos al objeto de conexion

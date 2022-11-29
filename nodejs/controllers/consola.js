@@ -1,13 +1,14 @@
 const path = require("path");
 const { DATEONLY } = require("sequelize");
 const Sequelize = require("sequelize");
+const Diabetes = require("../models/diabetes");
 const {rmSync} = require(fs); //no entiendo porque
 //const Age = require("../utils/database").models.Age;
 
 //CREATE
-exports.postDato =(req,res)=>{
+exports.postDiabetes =(req,res)=>{
     console.log(req.body)
-    dato.create(req,body)
+    Diabetes.create(req,body)
     .then(result=>{
         console.log("Datos creados")
         res.json(req.body)
@@ -19,8 +20,8 @@ exports.postDato =(req,res)=>{
 }
 
 //READ
-exports.getDato =(req,res)=>{
-    dato.findAll()
+exports.getDiabetes =(req,res)=>{
+    Diabetes.findAll()
     .then(vjs=>{
         console.log(vjs)
         res.json(vjs)
@@ -32,9 +33,9 @@ exports.getDato =(req,res)=>{
 }
 
 //UPDATE
-exports.postUpdateDato = (req,res)=>{
+exports.postUpdateDiabetes = (req,res)=>{
     console.log(req.body)
-    dato.update({
+    Diabetes.update({
         age: req.body.age
         //agregar cambios faltantes
     },{
@@ -53,9 +54,9 @@ exports.postUpdateDato = (req,res)=>{
 }
 
 //DELETE
-exports.postDeleteDato = (req, res)=>{
+exports.postDeleteDiabetes = (req, res)=>{
     console.log(req.body)
-    Dato.destroy({
+    Diabetes.destroy({
         where:{
             id: req.body.id
         }
