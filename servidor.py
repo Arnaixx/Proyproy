@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify, render_template
 import numpy as np
-from joblib import load
 import requests
 #Extracción de datos
 import pandas as pd
+from sklearn.model_selection import train_test_split
+from joblib import load,dump
+from sklearn.tree import DecisionTreeClassifier
+
 
 #cargar el modelo
 dt = load('modelo.joblib')
@@ -71,13 +74,31 @@ def model():
     # append data frame to CSV file
     df.to_csv('diabetes.csv', mode='a', index=False, header=False)
 
-
-
-
-
-
     #Regresar la salida del modelo
     return jsonify({"Resultado":str(resultado[0])})
+
+
+@servidorWeb.route('/modeloFile', methods = ['POST'])
+def train():
+    #Procesar datos de la entrada
+    dataFrame = pd.read_csv("diabetes.csv")
+    dataFrame['Outcome'] = dataFrame['Outcome'].replace(['0','1'],['Not detected','Detected'])
+    X = dataFrame.drop('Outcome', axis=1)
+    y = dataFrame['Outcome']
+    X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2)
+    #modelo
+    dt = DecisionTreeClassifier()
+    #entrenar modelo
+    dt.fit(X_train,y_train)
+    #evaluación del modelo
+    #print("Exactitud de desempeño: ", dt.score(X_test,y_test)) #accuracy
+    #exportar modelo para servidor web con flask
+    dump(dt,'modelo.joblib') #64bits
+    
+    #recargar el modelo
+    dt = load('modelo.joblib')
+    return jsonify({"Re entrenado, exactitud de desempeno: ":str(dt.score(X_test,y_test))})
+
 
 if __name__ == '__main__':
     servidorWeb.run(debug=False, host = '0.0.0.0', port='8081')
