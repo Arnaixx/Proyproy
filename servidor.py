@@ -1,91 +1,83 @@
-#!/usr/bin/env python3
-
 from flask import Flask, request, jsonify, render_template
 import numpy as np
 from joblib import load
-from werkzeug.utils import secure_filename
-import os
+import requests
+#Extracción de datos
+import pandas as pd
 
-#Cargar el modelo
+#cargar el modelo
 dt = load('modelo.joblib')
 
-#Generar el servidor (Back-end)
+#Generar el servidor
 servidorWeb = Flask(__name__)
 
-
-@servidorWeb.route("/formulario",methods=['GET'])
-def formulario():
+@servidorWeb.route('/formulario', methods=['GET'])
+def form():
     return render_template('pagina.html')
 
-#Envio de datos a través de Archivos
-@servidorWeb.route('/modeloFile', methods=['POST'])
-def modeloFile():
-    f = request.files['file']
-    filename=secure_filename(f.filename)
-    path=os.path.join(os.getcwd(),'files',filename)
-    f.save(path)
-    file = open(path, "r")
-    
-    for x in file:
-        info=x.split()
-    print(info)
-    datosEntrada = np.array([
-            float(info[0]),
-            float(info[1]),
-            float(info[2]),
-            float(info[3]),
-            float(info[4]),
-            float(info[5]),
-            float(info[6]),
-            float(info[7])
-        ])
-    #Utilizar el modelo
-    resultado=dt.predict(datosEntrada.reshape(1,-1))
-    #Regresar la salida del modelo
-    return jsonify({"Resultado":str(resultado[0])})
-
-#Envio de datos a través de Forms
-@servidorWeb.route('/modeloForm', methods=['POST'])
-def modeloForm():
-    #Procesar datos de entrada 
+@servidorWeb.route('/modeloForm', methods = ['POST'])
+def model():
+    #Procesar datos de la entrada
     contenido = request.form
-    
+    print (contenido)
     datosEntrada = np.array([
-            contenido['Pregnancies'],
-            contenido['Glucose'],
-            contenido['BloodPressure'],
-            contenido['SkinThickness'],
-            contenido['Insulin'],
-            contenido['BMI'],
-            contenido['DiabetesPedigreeFunction'],
-            contenido['Age']
+        contenido['Pregnancies'],
+        contenido['Glucose'],
+        contenido['BloodPressure'],
+        contenido['SkinThickness'],
+        contenido['Insulin'],
+        contenido['BMI'],
+        contenido['DiabetesPedigreeFunction'],
+        contenido['Age']
         ])
-    #Utilizar el modelo
-    resultado=dt.predict(datosEntrada.reshape(1,-1))
+    #actualizar el modelo
+    resultado = dt.predict(datosEntrada.reshape(1,-1))
+
+
+    # ECHAR A ANDAR EL POST
+    API_ENDPOINT = "http://localhost:8080/consola/altaDiabetes"
+    # data to be sent to api
+    data = {'pregnancies':contenido['Pregnancies'],
+            'glucose':contenido['Glucose'],
+            'bloodpressure':contenido['BloodPressure'],
+            'skinthickness':contenido['SkinThickness'],
+            'insulin':contenido['Insulin'],
+            'bmi':contenido['BMI'],
+            'diabetespedigreefunction':contenido['DiabetesPedigreeFunction'],
+            'age':contenido['Age']
+            }
+
+    # sending post request and saving response as response object
+    r = requests.post(url = API_ENDPOINT, data = data)
+
     #Regresar la salida del modelo
-    return jsonify({"Resultado":str(resultado[0])})
+    #return jsonify({"Resultado":str(resultado[0])})
+
+    ## APPEND AL CSV 
+    data = {
+        'Pregnancies': contenido['Pregnancies'],
+        'Glucose': contenido['Glucose'],
+        'BloodPressure': contenido['BloodPressure'],
+        'SkinThickness': contenido['SkinThickness'],
+        'Insulin': contenido['Insulin'],
+        'BMI': contenido['BMI'],
+        'DiabetesPedigreeFunction': contenido['DiabetesPedigreeFunction'],
+        'Age': contenido['Age'],
+        'Outcome': resultado
+    }
+    # Make data frame of above data
+    df = pd.DataFrame(data)
+    
+    # append data frame to CSV file
+    df.to_csv('diabetes.csv', mode='a', index=False, header=False)
 
 
-#Envio de datos a través de JSON
-@servidorWeb.route('/modelo', methods=['POST'])
-def modelo():
-    #Procesar datos de entrada 
-    contenido = request.json
-    print(contenido)
-    datosEntrada = np.array([
-            contenido['Pregnancies'],
-            contenido['Glucose'],
-            contenido['BloodPressure'],
-            contenido['SkinThickness'],
-            contenido['Insulin'],
-            contenido['BMI'],
-            contenido['DiabetesPedigreeFunction'],
-            contenido['Age']
-        ])
-    #Utilizar el modelo
-    resultado=dt.predict(datosEntrada.reshape(1,-1))
+
+
+
+
     #Regresar la salida del modelo
     return jsonify({"Resultado":str(resultado[0])})
 
 if __name__ == '__main__':
-    servidorWeb.run(debug=False,host='0.0.0.0',port='8080')
+    servidorWeb.run(debug=False, host = '0.0.0.0', port='8081')

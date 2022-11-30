@@ -3,14 +3,14 @@ const Sequelize = require('sequelize');
 const Diabetes = (sequelize)=>{
     sequelize.define('Diabetes',{
         //Forma especifica de declarar atributos
-        age: Sequelize.INTEGER,
-        bloodpressure: Sequelize.INTEGER,
-        bmi: Sequelize.INTEGER,
-        diabetespedigreefunction: Sequelize.INTEGER,
-        glucose: Sequelize.INTEGER,
-        insulin: Sequelize.INTEGER,
-        pregnancies: Sequelize.INTEGER,
-        skinthickness: Sequelize.INTEGER
+        bloodpressure: Sequelize.FLOAT,
+        bmi: Sequelize.FLOAT,
+        diabetespedigreefunction: Sequelize.FLOAT,
+        glucose: Sequelize.FLOAT,
+        insulin: Sequelize.FLOAT,
+        pregnancies: Sequelize.FLOAT,
+        skinthickness: Sequelize.FLOAT,
+        age: Sequelize.FLOAT
     })
 }
 

@@ -1,9 +1,9 @@
+
+
 const path = require("path");
-const { DATEONLY } = require("sequelize");
+const Diabetes = require("../utils/database").models.Diabetes;
+const sequelize =require("../utils/database");
 const Sequelize = require("sequelize");
-const Diabetes = require("../models/diabetes");
-//const {rmSync} = require(fs); //no entiendo porque
-//const Age = require("../utils/database").models.Age;
 
 
 // Proceso cuando se llame a la ruta
@@ -16,7 +16,7 @@ exports.getAltaDiabetes = (req,res)=>{
 //Crear registro POST
 exports.postAltaDiabetes =(req,res)=>{
     console.log(req.body)
-    Diabetes.create(req,body)
+    Diabetes.create(req.body)
     .then(result=>{
         console.log("Datos creados")
         res.send("Registro exitoso") //Cliente
