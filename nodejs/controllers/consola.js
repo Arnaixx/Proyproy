@@ -45,24 +45,34 @@ exports.getAllDiabetes = (req,res)=>{
 
 //FALTA Consultar 1 registro
 exports.getConsultaDiabetes = (req,res)=>{
-    res.send('<h1>Datos de las diabetes</h1>')
+    console.log(req.body)
+    Diabetes.findAll({
+        where:{
+            id : req.body.id
+        }
+    }).then((diabetes)=>{
+        console.log("Diabetes mostrada")
+        res.send(diabetes)
+    }).catch(e=>{
+        console.log(e)
+        res.send("Error")
+    })
 }
 
 //DELETE FROM Consola WHERE id=
 exports.postDeleteDiabetes = (req, res)=>{
+    //DELETE FROM Consola WHERE id=
     console.log(req.body)
     Diabetes.destroy({
         where:{
-            id: req.body.id
+            id : req.body.id
         }
-    })
-    .then(()=>{
-        console.log("Deleted")
-        res.json({state:"accepted"})
-    })
-    .catch(err =>{
-        console.log(err)
-        res.json({state:"error"})
+    }).then(()=>{
+        console.log("Diabetes eliminada")
+        res.send("Diabetes eliminada")
+    }).catch(e=>{
+        console.log(e)
+        res.send("Error")
     })
 }
 

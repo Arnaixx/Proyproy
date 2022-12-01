@@ -107,24 +107,24 @@ def train():
             writer.writerow(columna)
 
     #Procesar datos de la entrada
-    #dataFrame = pd.read_csv("diabetes.csv")
-    #dataFrame['Outcome'] = dataFrame['Outcome'].replace(['0','1'],['Not detected','Detected'])
-    #X = dataFrame.drop('Outcome', axis=1)
-    #y = dataFrame['Outcome']
-    #X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2)
+    dataFrame = pd.read_csv("diabetes.csv")
+    dataFrame['Outcome'] = dataFrame['Outcome'].replace(['0','1'],['Not detected','Detected'])
+    X = dataFrame.drop('Outcome', axis=1)
+    y = dataFrame['Outcome']
+    X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2)
     #modelo
-    #dt = DecisionTreeClassifier()
+    dt = DecisionTreeClassifier()
     #entrenar modelo
-    #dt.fit(X_train,y_train)
+    dt.fit(X_train,y_train)
     #evaluación del modelo
-    #print("Exactitud de desempeño: ", dt.score(X_test,y_test)) #accuracy
+    print("Exactitud de desempeño: ", dt.score(X_test,y_test)) #accuracy
     #exportar modelo para servidor web con flask
-    #dump(dt,'modelo.joblib') #64bits
+    dump(dt,'modelo.joblib') #64bits
     
     #recargar el modelo
-    #dt = load('modelo.joblib')
+    dt = load('modelo.joblib')
     #return jsonify({"Re entrenado, exactitud de desempeno: ":str(dt.score(X_test,y_test))})
-    return jsonify({"Re entrenado, exactitud de desempeno: ":str("hola")})
+    return jsonify({"Re entrenado, exactitud de desempeno: ":dt.score(X_test,y_test)})
 
 
 if __name__ == '__main__':

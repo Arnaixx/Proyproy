@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 //objeto de conexión
 
 //cambiar 'test' por la base de datos
-const sequelize = new Sequelize('Diabetes2','admin','admin1234',{
+const sequelize = new Sequelize('Diabetes3','admin','admin1234',{
     dialect:'mysql',
     host:'database-1.c4rk4yygnjxi.us-east-1.rds.amazonaws.com',
     dialectOptions:{
