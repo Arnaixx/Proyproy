@@ -1,0 +1,19 @@
+{
+  "name": "proyproy",
+  "version": "1.0.0",
+  "description": "proy dev apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arnaixx/Proyproy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arnaixx/Proyproy/issues"
+  },
+  "homepage": "https://github.com/Arnaixx/Proyproy#readme"
+}
