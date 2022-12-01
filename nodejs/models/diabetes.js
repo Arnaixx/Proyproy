@@ -10,7 +10,8 @@ const Diabetes = (sequelize)=>{
         insulin: Sequelize.FLOAT,
         pregnancies: Sequelize.FLOAT,
         skinthickness: Sequelize.FLOAT,
-        age: Sequelize.FLOAT
+        age: Sequelize.FLOAT,
+        outcome: Sequelize.INTEGER
     })
 }
 
