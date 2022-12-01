@@ -4,17 +4,10 @@ p{
     font-style: normal;
 }
 
-/*.class1{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    background-color: aquamarine;
-    border: 15px;
-    border-color: black;
-}*/
-
 h1{
     font-size: 4cm;
     font-family: Trebuchet MS;
-    background-color: rgb(195, 176, 206);
+    background-color: greenyellow;
     border-radius: 1.5cm;
 
 }
@@ -28,7 +21,7 @@ h3{
 }
 
 
-h2{
+legend{
     font-family: bondoni;
     border-style: dashed;
 }
